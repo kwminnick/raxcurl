@@ -8,6 +8,7 @@ import logging
 
 import rackspacecurl
 from rackspacecurl import client
+from rackspacecurl import utils
 from rackspacecurl.v1_0 import shell as shell_v1_0
 
 logger = logging.getLogger(__name__)
@@ -90,7 +91,7 @@ class RackspaceCurlShell(object):
                     )
             self.subcommands[command] = subparser
             for (args, kwargs) in arguments:
-                subparser.add_arguments(*args, **kwargs)
+                subparser.add_argument(*args, **kwargs)
             subparser.set_defaults(func=callback)
 
     def setup_debugging(self, debug):
@@ -127,6 +128,8 @@ class RackspaceCurlShell(object):
 
         return
 
+    @utils.arg('command', metavar='<subcommand>', nargs='?',
+            help='Display help for <subcommand>')
     def do_help(self, args):
         """
         Display help about this program or one of its subcommands.
