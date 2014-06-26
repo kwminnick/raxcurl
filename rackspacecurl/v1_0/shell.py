@@ -1,6 +1,7 @@
 import subprocess
 import sys
 import keyring
+import json
 
 from rackspacecurl import utils
 
@@ -57,7 +58,13 @@ def do_get_token(cs, args):
                         """'https://identity.api.rackspacecloud.com/v2.0/tokens'""")
 
     out = curl(args, curl_args)
-    print out
+    if args.debug:
+        #if debugging, print everything
+        print out
+    else:
+        #just print the token
+        data = json.loads(out)
+        print data['access']['token']['id']
     
     return
 
