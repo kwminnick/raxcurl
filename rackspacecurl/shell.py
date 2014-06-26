@@ -26,7 +26,7 @@ class RackspaceCurlArgumentParser(argparse.ArgumentParser):
         self.print_usage(sys.stderr)
         choose_from = ' (choose from'
         progparts = self.prog.partition(' ')
-        self.exit(2, "error: %(errmsg)s\nTry '%(mainp)s --help %(subp)s'"
+        self.exit(2, "error: %(errmsg)s\nTry '%(mainp)s help %(subp)s'"
                 " for more information.\n" %
                 {'errmsg': message.split(choose_from)[0],
                     'mainp': progparts[0],
@@ -38,7 +38,7 @@ class RackspaceCurlShell(object):
         parser = RackspaceCurlArgumentParser(
                 prog='raxcurl',
                 description=__doc__.strip(),
-                epilog='See "raxcurl --help COMMAND" '\
+                epilog='See "raxcurl help COMMAND" '\
                         'for help on specific command.',
                 add_help=False,
                 formatter_class=RackspaceCurlHelpFormatter,
