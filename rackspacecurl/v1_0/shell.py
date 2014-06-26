@@ -13,14 +13,15 @@ def curl(args, curl_args):
     command = command + " " + curl_args
     if args.debug:
         print command
-    child = subprocess.Popen(command, shell=True, stderr=subprocess.PIPE)
+    child = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    out = ''
     while True:
         out = child.stderr.read(1)
         if out == '' and child.poll() != None:
             break
-        if out != '':
-            sys.stdout.write(out)
-            sys.stdout.flush()
+    
+    out = child.stdout.read()
+    return out
 
 @utils.arg('username',
         metavar='<username>',
@@ -35,17 +36,29 @@ def do_get_token(cs, args):
         print "API Key not found in Keychain"
         capture_password(username)
 
+    if args.xml:
+        accept = "xml"
+    else:
+        accept = "json"
+
+    if args.debug:
+        show_headers = "-i "
+    else:
+        show_headers = ""
+
     """Authenticate and return a token"""
-    curl_args = ("""-d '<?xml version="1.0" encoding="UTF-8"?>""" + 
+    curl_args = (show_headers + """-d '<?xml version="1.0" encoding="UTF-8"?>""" + 
                         """<auth><apiKeyCredentials """ +
                         """xmlns="http://docs.rackspace.com/identity/api/ext/RAX-KSKEY/v1.0" """ + 
                         "username=\"" + username + "\" "
                         "apiKey=\"" + password + "\"" + """/></auth>' """ +
                         """-H 'Content-Type: application/xml' """ +
-                        """-H 'Accept: application/json' """ +  
+                        "-H 'Accept: application/" + accept + "' " +  
                         """'https://identity.api.rackspacecloud.com/v2.0/tokens'""")
 
-    curl(args, curl_args)
+    out = curl(args, curl_args)
+    print out
+    
     return
 
 @utils.arg('username',

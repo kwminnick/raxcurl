@@ -55,6 +55,10 @@ class RackspaceCurlShell(object):
                 action='store_true',
                 help="Print debugging output")
 
+        parser.add_argument('--xml',
+                default=False,
+                action='store_true',
+                help="Output xml instead of json (application/xml)")
         return parser
 
     def get_subcommand_parser(self):
