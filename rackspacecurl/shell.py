@@ -55,10 +55,11 @@ class RackspaceCurlShell(object):
                 action='store_true',
                 help="Print debugging output")
 
-        parser.add_argument('--xml',
-                default=False,
-                action='store_true',
-                help="Output xml instead of json (application/xml)")
+        parser.add_argument('--username',
+                metavar='<username>',
+                default=utils.env('OS_USERNAME'),
+                help="Rackspace Cloud username, defaults to env[OS_USERNAME]")
+
         return parser
 
     def get_subcommand_parser(self):
@@ -124,6 +125,11 @@ class RackspaceCurlShell(object):
         # Short-circuit and deal with help right away.
         if args.func == self.do_help:
             self.do_help(args)
+            return 0
+
+        if not args.username:
+            print "here"
+            subcommand_parser.print_help()
             return 0
 
         self.cs = client.Client("1.0")

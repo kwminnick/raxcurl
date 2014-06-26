@@ -1,4 +1,5 @@
 import sys
+import os
 
 def arg(*args, **kwargs):
     """Decorator for CLI args"""
@@ -6,6 +7,17 @@ def arg(*args, **kwargs):
         add_arg(func, *args, **kwargs)
         return func
     return _decorator
+
+def env(*args, **kwargs):
+    """
+    returns the first environemnt variable set
+    if none are non-empty, defaults to '' or keyword arg default
+    """
+    for arg in args:
+        value = os.environ.get(arg, None)
+        if value:
+            return value
+    return kwargs.get('default', '')
 
 def add_arg(f, *args, **kwargs):
     """Bind CLI arguments to a shell.py `do_foo` function."""

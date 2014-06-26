@@ -57,9 +57,26 @@ def pretty_print(data):
     except:
         print data
 
-@utils.arg('username',
-        metavar='<username>',
-        help="api username")
+def get_endpoint_and_token(args):
+    
+    out = get_auth_response(args)
+    data = json.loads(out)
+    services = data['access']['serviceCatalog']
+    
+    real_endpoint = ''
+    token = data['access']['token']['id']
+    
+    for service in services:
+        for endpoint in service['endpoints']:
+            if 'region' in endpoint:
+                epName = service['name'] + "-" + endpoint['region']
+            else:
+                epName = service['name']
+            if epName == args.endpoint:
+                real_endpoint = endpoint['publicURL']
+    
+    return (real_endpoint, token)
+
 def do_get_endpoints(cs, args):
     """Show the list of endpoints, these can be used as args for 'curl' command"""
 
@@ -79,9 +96,6 @@ def do_get_endpoints(cs, args):
             else:
                 print service['name']
 
-@utils.arg('username',
-        metavar='<username>',
-        help="api username")
 def do_get_token(cs, args):
     """Login and return the auth token"""
 
@@ -99,33 +113,29 @@ def do_get_token(cs, args):
     
     return
 
-@utils.arg('username',
-        metavar='<username>',
-        help="api username")
 def do_set_api_key(cs, args):
     """Set the API key stored in the keychain for the username"""
     capture_password(args.username)
 
-@utils.arg('URL',
-        metavar='<URL>',
-        help="URL")
-@utils.arg('--token',
-        metavar='<token>',
-        help="If specified, X-Auth-Token header will be added.")
-@utils.arg('--endpoint',
+@utils.arg('endpoint',
         metavar='<endpoint>',
-        help="If specified, must be one of endpoints returned via list-endpoints")
-@utils.arg('--region',
-        metavar='<region>',
-        help="If specified, use a specific region versus the default")
-def do_curl(cs, args):
+        help="Must be one of endpoints returned via list-endpoints")
+@utils.arg('--url',
+        metavar='<url>',
+        help="Additonal url parameters")
+def do_get(cs, args):
     """Execute a curl command"""
 
-    url = args.URL
-    curl_args = url
+    url = args.url
 
-    if args.token:
-        curl_args = curl_args + " -H \"X-Auth-Token: " + args.token + "\""
+    #translate the endpoint into an actual url
+    (endpoint, token) = get_endpoint_and_token(args)
+   
+    curl_args = ''
+    if url:
+        curl_args = endpoint + url
+
+    curl_args = curl_args + " -H \"X-Auth-Token: " + token + "\""
 
     out = curl(args, curl_args)
     if args.debug:
