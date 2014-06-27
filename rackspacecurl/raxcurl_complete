@@ -1,0 +1,25 @@
+_raxcurl_complete()
+{
+    local cur prev opts
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    opts="get post delete get-token get-endpoints set-api-key"
+   
+    # Complete the arguments to some of the basic commands
+    if [ -f ~/.raxcurl_endpoints ]; then
+        case "${prev}" in
+            get)
+                local running=$(for x in `cat ~/.raxcurl_endpoints`; do echo ${x} ; done )
+                COMPREPLY=( $(compgen -W "${running}" -- ${cur}) )
+                return 0
+                ;;
+            *)
+            ;;
+        esac
+    fi 
+
+    COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+    return 0
+}
+complete -F _raxcurl_complete raxcurl

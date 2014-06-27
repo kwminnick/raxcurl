@@ -3,6 +3,7 @@ import sys
 import keyring
 import json
 
+from os.path import expanduser
 from rackspacecurl import utils
 
 def capture_password(username):
@@ -87,14 +88,32 @@ def do_get_endpoints(cs, args):
     
     data = json.loads(out)
     services = data['access']['serviceCatalog']
-    
+
+    #cache output for auto-complete
+    cache = True
+    try:
+        home = expanduser("~") + "/.raxcurl_endpoints"
+        f = open(home, 'w')
+    except:
+        cache = False
+
     #pretty_print(services)
     for service in services:
         for endpoint in service['endpoints']:
             if 'region' in endpoint:
-                print service['name'] + "-" + endpoint['region']
+                name = service['name'] + "-" + endpoint['region']
             else:
-                print service['name']
+                name = service['name']
+            
+            if cache:
+                try:
+                    f.write(name + "\n")
+                except:
+                    pass
+            print name
+
+    if cache:
+        f.close()
 
 def do_get_token(cs, args):
     """Login and return the auth token"""
@@ -141,7 +160,6 @@ def do_get(cs, args):
     if args.debug:
         print out
     else:
-        #just print the token
         try:
             parsed = json.loads(out)
             print json.dumps(parsed, sort_keys=True, indent=4, separators=(',', ': '))
@@ -175,7 +193,6 @@ def do_post(cs, args):
     if args.debug:
         print out
     else:
-        #just print the token
         try:
             parsed = json.loads(out)
             print json.dumps(parsed, sort_keys=True, indent=4, separators=(',', ': '))
@@ -207,7 +224,6 @@ def do_delete(cs, args):
     if args.debug:
         print out
     else:
-        #just print the token
         try:
             parsed = json.loads(out)
             print json.dumps(parsed, sort_keys=True, indent=4, separators=(',', ': '))
