@@ -26,7 +26,7 @@ You can install this utility via:
 
 You'll find the complete documentation on the shell by running ``raxcurl help``
 
-`
+``
 usage: raxcurl [--debug] [--username <username>] <subcommand> ...
 
 
@@ -65,10 +65,10 @@ Optional arguments:
 
 See "raxcurl help COMMAND" for help on specific command.
 
-`
+``
 
 Example Usage:
-`
+``
 export OS_USERNAME=kwminnick
 
 raxcurl
@@ -96,5 +96,5 @@ raxcurl get cloudServersOpenStack-DFW --url=/servers
 raxcurl delete cloudServersOpenStack-DFW --url=/servers/<id>
 
 raxcurl get cloudServersOpenStack-DFW --url=/servers/detail
-`
+``
 
