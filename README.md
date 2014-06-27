@@ -13,6 +13,8 @@ history. Yes, awesome all in itself.
 Additionally there are a few added bonuses as part of this utility:
 - get-token command that allows you to retrieve a token and pass it to other curl commands
 like raxmon
+- get-endpoints to list all the available endpoints in your catalog in a condensed format
+- auto-complete to speed up your work
 
 You can install this utility via:
     - Download
@@ -36,8 +38,8 @@ Positional arguments:
   <subcommand>
     delete              Execute a curl DELETE commmand
     get                 Execute a curl GET command
-    get-endpoints       Show the list of endpoints, these can be used as args
-                        for 'curl' command
+    get-endpoints       Show the list of endpoints, these must be used as args
+                        for 'get,post,delete' command
     get-token           Login and return the auth token
     post                Execute a curl POST command (PIPE in data via STDIN)
     set-api-key         Set the API key stored in the keychain for the
