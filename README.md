@@ -19,7 +19,7 @@ You can install this utility via:
 
     - Make sure you have python-setuptools (yum install python-setuptools)
 
-    - python setup.py install
+    - sudo python setup.py install
 
     - `raxcurl help`
 
@@ -85,4 +85,21 @@ raxcurl delete cloudServersOpenStack-DFW --url=/servers/<id>
 
 raxcurl get cloudServersOpenStack-DFW --url=/servers/detail
 ```
+
+Getting bash auto-complete working:
+
+Using bash auto-complete will save you time with `raxcurl`:
+
+```
+On a mac:
+- Follow instructions https://trac.macports.org/wiki/howto/bash-completion to install `bash-completion`
+
+- Successfully run `raxcurl get-endpoints`
+
+- `sudo cp raxcurl_completion /opt/local/etc/completion.d/`
+
+- `. /opt/local/etc/completion.d/raxcurl_completion`
+
+Now you should be able to type `raxcurl get cloudD[tab]` for example and get the endpoints completed.
+
 
