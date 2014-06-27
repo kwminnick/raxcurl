@@ -9,7 +9,7 @@ _raxcurl_complete()
     # Complete the arguments to some of the basic commands
     if [ -f ~/.raxcurl_endpoints ]; then
         case "${prev}" in
-            get)
+            @(get|post|delete) )
                 local running=$(for x in `cat ~/.raxcurl_endpoints`; do echo ${x} ; done )
                 COMPREPLY=( $(compgen -W "${running}" -- ${cur}) )
                 return 0
