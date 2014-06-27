@@ -96,9 +96,9 @@ On a mac:
 
 - Successfully run `raxcurl get-endpoints`
 
-- `sudo cp raxcurl_completion /opt/local/etc/completion.d/`
+- `sudo cp raxcurl_completion /opt/local/etc/bash_completion.d/`
 
-- `. /opt/local/etc/completion.d/raxcurl_completion`
+- `. /opt/local/etc/bash_completion.d/raxcurl_completion`
 
 Now you should be able to type `raxcurl get cloudD[tab]` for example and get the endpoints completed.
 
