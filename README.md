@@ -26,46 +26,32 @@ You can install this utility via:
 
 You'll find the complete documentation on the shell by running ``raxcurl help``
 
-``
-usage: raxcurl [--debug] [--username <username>] <subcommand> ...
 
+usage: raxcurl [--debug] [--username <username>] <subcommand> ...
 
 Command-line wrapper to curl for Rackspace Cloud API
 
-
 Positional arguments:
-
   <subcommand>
-
     delete              Execute a curl POST command (PIPE in data via STDIN)
-
     get                 Execute a curl GET command
-
     get-endpoints       Show the list of endpoints, these can be used as args
                         for 'curl' command
-
     get-token           Login and return the auth token
-
     post                Execute a curl POST command (PIPE in data via STDIN)
-
     set-api-key         Set the API key stored in the keychain for the
                         username
-
     help                Display help about this program or one of its
                         subcommands.
-
 
 Optional arguments:
 
   --debug               Print debugging output
-
   --username <username>
                         Rackspace Cloud username, defaults to env[OS_USERNAME]
 
-
 See "raxcurl help COMMAND" for help on specific command.
 
-``
 
 Example Usage:
 ``
