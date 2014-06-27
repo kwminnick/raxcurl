@@ -34,7 +34,7 @@ Command-line wrapper to curl for Rackspace Cloud API
 
 Positional arguments:
   <subcommand>
-    delete              Execute a curl POST command (PIPE in data via STDIN)
+    delete              Execute a curl DELETE commmand
     get                 Execute a curl GET command
     get-endpoints       Show the list of endpoints, these can be used as args
                         for 'curl' command

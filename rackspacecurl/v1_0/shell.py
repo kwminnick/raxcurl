@@ -189,7 +189,7 @@ def do_post(cs, args):
         metavar='<url>',
         help="Additional url parameters")
 def do_delete(cs, args):
-    """Execute a curl POST command (PIPE in data via STDIN)"""
+    """Execute a curl DELETE command"""
 
     url = args.url
 
