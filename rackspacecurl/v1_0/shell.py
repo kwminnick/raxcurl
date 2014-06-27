@@ -119,12 +119,12 @@ def do_set_api_key(cs, args):
 
 @utils.arg('endpoint',
         metavar='<endpoint>',
-        help="Must be one of endpoints returned via list-endpoints")
+        help="Must be one of endpoints returned via get-endpoints")
 @utils.arg('--url',
         metavar='<url>',
         help="Additonal url parameters")
 def do_get(cs, args):
-    """Execute a curl command"""
+    """Execute a curl GET command"""
 
     url = args.url
 
@@ -147,3 +147,71 @@ def do_get(cs, args):
             print json.dumps(parsed, sort_keys=True, indent=4, separators=(',', ': '))
         except:
             print out
+
+@utils.arg('endpoint',
+        metavar='<endpoint>',
+        help="Must be one of endpoints returned via get-endpoints")
+@utils.arg('--url',
+        metavar='<url>',
+        help="Additional url parameters")
+def do_post(cs, args):
+    """Execute a curl POST command (PIPE in data via STDIN)"""
+
+    url = args.url
+
+    #translate the endpoint shortcut into an actual url
+    (endpoint, token) = get_endpoint_and_token(args)
+
+    curl_args = ''
+    if url:
+        curl_args = endpoint + url
+
+    curl_args = curl_args + " -H \"X-Auth-Token: " + token + "\""
+    curl_args = curl_args + " -H \"Content-Type: application/json\""
+    #this will tell curl to read data from stdin
+    curl_args = curl_args + " -X POST -d @-"
+
+    out = curl(args, curl_args)
+    if args.debug:
+        print out
+    else:
+        #just print the token
+        try:
+            parsed = json.loads(out)
+            print json.dumps(parsed, sort_keys=True, indent=4, separators=(',', ': '))
+        except:
+            print out
+
+@utils.arg('endpoint',
+        metavar='<endpoint>',
+        help="Must be one of endpoints returned via get-endpoints")
+@utils.arg('--url',
+        metavar='<url>',
+        help="Additional url parameters")
+def do_delete(cs, args):
+    """Execute a curl POST command (PIPE in data via STDIN)"""
+
+    url = args.url
+
+    #translate the endpoint shortcut into an actual url
+    (endpoint, token) = get_endpoint_and_token(args)
+
+    curl_args = ''
+    if url:
+        curl_args = endpoint + url
+
+    curl_args = curl_args + " -H \"X-Auth-Token: " + token + "\""
+    curl_args = curl_args + " -X DELETE"
+
+    out = curl(args, curl_args)
+    if args.debug:
+        print out
+    else:
+        #just print the token
+        try:
+            parsed = json.loads(out)
+            print json.dumps(parsed, sort_keys=True, indent=4, separators=(',', ': '))
+        except:
+            print out
+
+
